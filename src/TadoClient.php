@@ -51,9 +51,9 @@ class TadoClient
     public function getHome($id)
     {
         try {
-            $rawResponse = $this->client->get(self::API_BASE_URL . '/homes/' . $id, ['headers' => ['Authorization' => 'Bearer ' . $this->getToken()]]);
+            $rawResponse = $this->client->get(self::API_BASE_URL . '/homes/' . $id);
         } catch (ClientException $e) {
-            $rawResponse = $this->client->get(self::API_BASE_URL . '/homes/' . $id, ['headers' => ['Authorization' => 'Bearer ' . $this->getToken(true)]]);
+            // @todo
         }
         return json_decode($rawResponse->getBody()->getContents());
     }
@@ -85,9 +85,9 @@ class TadoClient
             $body['termination']['durationInSeconds'] = $timer * 60;
         }
         try {
-            $rawResponse = $this->client->put(self::API_BASE_URL . '/homes/' . $homeId . '/zones/' . $zoneId . '/overlay', ['headers' => ['Authorization' => 'Bearer ' . $this->getToken()], 'body' => json_encode($body)]);
+            $rawResponse = $this->client->put(self::API_BASE_URL . '/homes/' . $homeId . '/zones/' . $zoneId . '/overlay', ['body' => json_encode($body)]);
         } catch (GuzzleException $e) {
-            $rawResponse = $this->client->put(self::API_BASE_URL . '/homes/' . $homeId . '/zones/' . $zoneId . '/overlay', ['headers' => ['Authorization' => 'Bearer ' . $this->getToken(true)], 'body' => json_encode($body)]);
+            // @todo
         }
         return json_decode($rawResponse->getBody()->getContents());
     }
