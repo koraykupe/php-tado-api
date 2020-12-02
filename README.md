@@ -19,3 +19,4 @@ $tado->setTemperature(123456, 2, true, 23, 45); // Set zone 2 to 23 Celcius degr
 
 ### ROADMAP
 - Fahrenheit support
+- Add tests
