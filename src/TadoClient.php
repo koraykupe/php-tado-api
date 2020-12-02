@@ -22,13 +22,17 @@ class TadoClient
      */
     public function __construct()
     {
-        $token        = new AuthenticationHandler();
-        $this->client = new GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $token]]);
+        $authHandler  = new AuthenticationHandler();
+        $this->client = new GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $authHandler->getToken()]]);
 
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__ . '/../.env');
     }
 
+    /**
+     * @return mixed
+     * @throws GuzzleException
+     */
     public function getGeneralInfo()
     {
         try {
@@ -36,10 +40,14 @@ class TadoClient
         } catch (ClientException $e) {
             $rawResponse = $this->client->get(self::API_BASE_URL . '/me');
         }
-        $response = json_decode($rawResponse->getBody()->getContents());
-        return $response;
+        return json_decode($rawResponse->getBody()->getContents());
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @throws GuzzleException
+     */
     public function getHome($id)
     {
         try {
@@ -47,10 +55,18 @@ class TadoClient
         } catch (ClientException $e) {
             $rawResponse = $this->client->get(self::API_BASE_URL . '/homes/' . $id, ['headers' => ['Authorization' => 'Bearer ' . $this->getToken(true)]]);
         }
-        $response = json_decode($rawResponse->getBody()->getContents());
-        return $response;
+        return json_decode($rawResponse->getBody()->getContents());
     }
 
+    /**
+     * @param          $homeId
+     * @param          $zoneId
+     * @param bool     $power
+     * @param int|null $temperature
+     * @param int|null $timer
+     * @return mixed
+     * @throws GuzzleException
+     */
     public function setTemperature($homeId, $zoneId, bool $power, int $temperature = null, int $timer = null)
     {
         $body = [
@@ -73,8 +89,7 @@ class TadoClient
         } catch (GuzzleException $e) {
             $rawResponse = $this->client->put(self::API_BASE_URL . '/homes/' . $homeId . '/zones/' . $zoneId . '/overlay', ['headers' => ['Authorization' => 'Bearer ' . $this->getToken(true)], 'body' => json_encode($body)]);
         }
-        $response = json_decode($rawResponse->getBody()->getContents());
-        return $response;
+        return json_decode($rawResponse->getBody()->getContents());
     }
 
 }
