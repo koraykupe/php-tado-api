@@ -22,7 +22,7 @@ class TadoClient
     public function __construct()
     {
         $authHandler  = new AuthenticationHandler();
-        $this->client = new GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $authHandler->getToken()]]);
+        $this->client = new GuzzleHttp\Client(['debug' => true, 'headers' => ['Content-type' => 'application/json', 'Authorization' => 'Bearer ' . $authHandler->getToken()]]);
 
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__ . '/../.env');
