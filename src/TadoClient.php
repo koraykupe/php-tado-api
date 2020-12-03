@@ -2,7 +2,6 @@
 
 use Auth\AuthenticationHandler;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -35,11 +34,7 @@ class TadoClient
      */
     public function getGeneralInfo()
     {
-        try {
-            $rawResponse = $this->client->get(self::API_BASE_URL . '/me');
-        } catch (ClientException $e) {
-            $rawResponse = $this->client->get(self::API_BASE_URL . '/me');
-        }
+        $rawResponse = $this->client->get(self::API_BASE_URL . '/me');
         return json_decode($rawResponse->getBody()->getContents());
     }
 
@@ -50,11 +45,7 @@ class TadoClient
      */
     public function getHome($id)
     {
-        try {
-            $rawResponse = $this->client->get(self::API_BASE_URL . '/homes/' . $id);
-        } catch (ClientException $e) {
-            // @todo
-        }
+        $rawResponse = $this->client->get(self::API_BASE_URL . '/homes/' . $id);
         return json_decode($rawResponse->getBody()->getContents());
     }
 
@@ -84,11 +75,7 @@ class TadoClient
         if ($timer) {
             $body['termination']['durationInSeconds'] = $timer * 60;
         }
-        try {
-            $rawResponse = $this->client->put(self::API_BASE_URL . '/homes/' . $homeId . '/zones/' . $zoneId . '/overlay', ['body' => json_encode($body)]);
-        } catch (GuzzleException $e) {
-            // @todo
-        }
+        $rawResponse = $this->client->put(self::API_BASE_URL . '/homes/' . $homeId . '/zones/' . $zoneId . '/overlay', ['body' => json_encode($body)]);
         return json_decode($rawResponse->getBody()->getContents());
     }
 
