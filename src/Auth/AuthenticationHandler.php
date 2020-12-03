@@ -47,6 +47,11 @@ class AuthenticationHandler
         return $response['access_token'] ?? "";
     }
 
+    /**
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
     public function getToken()
     {
         $token = $this->cache->getItem(self::TOKEN_NAME);
