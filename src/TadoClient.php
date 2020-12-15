@@ -25,7 +25,7 @@ class TadoClient
 
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__ . '/../.env');
-        $this->client = new GuzzleHttp\Client(['debug' => $_ENV['CONFIG'], 'headers' => ['Content-type' => 'application/json', 'Authorization' => 'Bearer ' . $authHandler->getToken()]]);
+        $this->client = new GuzzleHttp\Client(['debug' => $_ENV['DEBUG'], 'headers' => ['Content-type' => 'application/json', 'Authorization' => 'Bearer ' . $authHandler->getToken()]]);
     }
 
     /**
