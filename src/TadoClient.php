@@ -64,14 +64,14 @@ class TadoClient
             'setting'     => [
                 'type'        => 'HEATING',
                 'power'       => $power ? 'ON' : 'OFF',
-                'temperature' => [
-                    'celsius' => $temperature,
-                ],
             ],
             'termination' => [
                 'type' => $timer ? 'TIMER' : 'MANUAL',
             ],
         ];
+        if ($temperature) {
+            $body['setting']['temperature']['celcius'] = $temperature;
+        }
         if ($timer) {
             $body['termination']['durationInSeconds'] = $timer * 60;
         }
